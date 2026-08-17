@@ -14,16 +14,16 @@ export const MainLayoutClient: React.FC<{ children: React.ReactNode }> = ({ chil
   const { isAuthenticated, isLoading } = useAuth();
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
-  const isAuthRoute = pathname === '/login' || pathname === '/register' || pathname?.startsWith('/auth');
+  const isPublicRoute = pathname === '/' || pathname === '/login' || pathname === '/register' || pathname?.startsWith('/auth');
 
   useEffect(() => {
-    if (!isLoading && !isAuthenticated && !isAuthRoute) {
+    if (!isLoading && !isAuthenticated && !isPublicRoute) {
       router.push('/login');
     }
-  }, [isLoading, isAuthenticated, isAuthRoute, router]);
+  }, [isLoading, isAuthenticated, isPublicRoute, router]);
 
-  // If on Login/Register page, render auth frame without sidebar/topbar
-  if (isAuthRoute) {
+  // If on Landing page or Login/Register page, render without sidebar/topbar
+  if (isPublicRoute) {
     return <>{children}</>;
   }
 

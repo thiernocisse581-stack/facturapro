@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import {
   FileText,
   Lock,
@@ -11,17 +11,20 @@ import {
   Building,
   User,
   Phone,
-  ShieldCheck,
   CheckCircle2,
   AlertCircle,
   Eye,
   EyeOff,
+  Sparkles,
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { useAppData } from '@/context/AppDataContext';
 
-export default function RegisterPage() {
+function RegisterForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const planParam = searchParams.get('plan');
+
   const { signUp, isLoading } = useAuth();
   const { addToast, updateOrganization } = useAppData();
 
@@ -34,6 +37,13 @@ export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const selectedPlanLabel =
+    planParam === 'starter'
+      ? 'Starter (0 FCFA/mois)'
+      : planParam === 'business'
+      ? 'Entreprise (15 000 FCFA/mois)'
+      : 'Professionnel (5 000 FCFA/mois)';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -70,6 +80,7 @@ export default function RegisterPage() {
         phone,
         currency: 'FCFA',
         tax_rate: 18,
+        subscription_plan: (planParam as any) || 'pro',
       });
 
       addToast({
@@ -85,22 +96,24 @@ export default function RegisterPage() {
     <div className="min-h-screen bg-slate-950 flex flex-col justify-center py-8 sm:py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Background Glow */}
       <div className="absolute top-0 right-1/4 w-96 h-96 bg-brand-600/20 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none" />
 
       <div className="sm:mx-auto sm:w-full sm:max-w-lg relative z-10">
         {/* Logo */}
         <div className="flex items-center justify-center gap-3 mb-6">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-brand-600 to-brand-500 flex items-center justify-center text-white shadow-xl shadow-brand-500/30 ring-4 ring-brand-500/20">
-            <FileText className="w-6 h-6" />
-          </div>
-          <div>
-            <span className="text-2xl font-black text-white tracking-tight">
-              Factura<span className="text-brand-500">Pro</span>
-            </span>
-            <span className="block text-[10px] uppercase font-bold text-slate-400 tracking-wider">
-              Créer votre espace entreprise
-            </span>
-          </div>
+          <Link href="/" className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-brand-600 to-cyan-500 flex items-center justify-center text-white shadow-xl shadow-brand-500/30 ring-4 ring-brand-500/20">
+              <FileText className="w-6 h-6" />
+            </div>
+            <div>
+              <span className="text-2xl font-black text-white tracking-tight">
+                Factura<span className="text-cyan-400">Pro</span>
+              </span>
+              <span className="block text-[10px] uppercase font-bold text-slate-400 tracking-wider">
+                Créer votre espace entreprise
+              </span>
+            </div>
+          </Link>
         </div>
 
         <h2 className="text-center text-xl sm:text-2xl font-extrabold text-white tracking-tight">
@@ -109,6 +122,13 @@ export default function RegisterPage() {
         <p className="mt-1 text-center text-xs text-slate-400">
           Configurez votre espace en 30 secondes. Données isolées et sécurisées.
         </p>
+
+        {planParam && (
+          <div className="mt-3 mx-auto flex items-center justify-center gap-1.5 px-3 py-1 bg-cyan-500/10 border border-cyan-500/30 rounded-full text-cyan-300 text-xs font-bold w-fit">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Forfait sélectionné : {selectedPlanLabel}</span>
+          </div>
+        )}
       </div>
 
       <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-lg relative z-10">
@@ -164,7 +184,7 @@ export default function RegisterPage() {
             {/* Manager Name */}
             <div>
               <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                Nom & Prénom du dirigeant <span className="text-rose-500">*</span>
+                Nom &amp; Prénom du dirigeant <span className="text-rose-500">*</span>
               </label>
               <div className="relative rounded-xl shadow-sm">
                 <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
@@ -253,10 +273,10 @@ export default function RegisterPage() {
               <p className="text-[11px] font-bold text-slate-300">Votre compte inclut :</p>
               <div className="grid grid-cols-2 gap-1 text-[11px] text-slate-400">
                 <span className="flex items-center gap-1">
-                  <CheckCircle2 className="w-3 h-3 text-emerald-400" /> Factures & Devis OHADA
+                  <CheckCircle2 className="w-3 h-3 text-emerald-400" /> Factures &amp; Devis OHADA
                 </span>
                 <span className="flex items-center gap-1">
-                  <CheckCircle2 className="w-3 h-3 text-emerald-400" /> Wave & Orange Money
+                  <CheckCircle2 className="w-3 h-3 text-emerald-400" /> Wave &amp; Orange Money
                 </span>
                 <span className="flex items-center gap-1">
                   <CheckCircle2 className="w-3 h-3 text-emerald-400" /> Suivi TVA 18%
@@ -270,7 +290,7 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={isSubmitting || isLoading}
-              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-brand-600 hover:bg-brand-500 active:scale-95 text-white rounded-xl font-bold text-xs shadow-lg shadow-brand-600/30 transition-all disabled:opacity-50"
+              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-brand-600 to-cyan-500 hover:from-brand-500 hover:to-cyan-400 active:scale-95 text-white rounded-xl font-bold text-xs shadow-lg shadow-brand-600/30 transition-all disabled:opacity-50"
             >
               {isSubmitting ? (
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -289,7 +309,7 @@ export default function RegisterPage() {
               Vous avez déjà un compte ?{' '}
               <Link
                 href="/login"
-                className="font-bold text-brand-400 hover:text-brand-300 transition-colors"
+                className="font-bold text-cyan-400 hover:text-cyan-300 transition-colors"
               >
                 Se connecter
               </Link>
@@ -298,5 +318,17 @@ export default function RegisterPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function RegisterPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center text-white">
+        <div className="w-6 h-6 border-2 border-brand-500 border-t-transparent rounded-full animate-spin" />
+      </div>
+    }>
+      <RegisterForm />
+    </Suspense>
   );
 }

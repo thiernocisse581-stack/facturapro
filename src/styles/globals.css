@@ -2,12 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Manrope:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --background: #F8FAFC;
+  --font-sans: 'DM Sans', 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-heading: 'Manrope', 'Plus Jakarta Sans', sans-serif;
+  --background: #FFFFFF;
   --foreground: #0F172A;
+  --cyan: #1DB5D9;
+  --cyan-2: #5BD3EB;
+  --cyan-soft: #E9FAFF;
+  --navy: #101D30;
+  --green: #19B56B;
+  --green-soft: #EAFAF2;
+  --depth-shadow: 0 45px 100px rgba(14,30,48,.16);
 }
 
 * {
@@ -103,3 +111,52 @@ html, body {
 .animate-pulse-glow {
   animation: pulseGlow 2s infinite;
 }
+
+@keyframes cardFloatA {
+  0%, 100% { transform: rotate(-4deg) translate3d(0,0,0); }
+  50% { transform: rotate(-1deg) translate3d(0,-10px,12px); }
+}
+
+@keyframes cardFloatB {
+  0%, 100% { transform: rotate(4deg) translate3d(0,0,0); }
+  50% { transform: rotate(1deg) translate3d(0,-12px,14px); }
+}
+
+@keyframes ambientFloat {
+  from { transform: translate3d(-1%,0,0) scale(1); }
+  to { transform: translate3d(1.5%,18px,0) scale(1.04); }
+}
+
+@keyframes orbDrift {
+  from { transform: translate(0,0) scale(0.95); }
+  to { transform: translate(-40px,25px) scale(1.08); }
+}
+
+@keyframes orbDrift2 {
+  from { transform: translate(0,0); }
+  to { transform: translate(35px,-20px); }
+}
+
+.float-payment-anim {
+  animation: cardFloatA 5.8s ease-in-out infinite;
+}
+
+.float-customer-anim {
+  animation: cardFloatB 6.4s ease-in-out infinite;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.85s ease, transform 0.85s cubic-bezier(0.16, 0.72, 0.18, 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+
