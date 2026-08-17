@@ -8,6 +8,7 @@ import {
   Lock,
   Mail,
   ArrowRight,
+  ArrowLeft,
   Building,
   User,
   Phone,
@@ -98,11 +99,28 @@ function RegisterForm() {
       <div className="absolute top-0 right-1/4 w-96 h-96 bg-brand-600/20 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none" />
 
+      {/* Top Back to Home navigation */}
+      <div className="sm:mx-auto sm:w-full sm:max-w-lg mb-6 relative z-10 flex items-center justify-between">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 px-3.5 py-2 bg-slate-900/90 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white rounded-xl text-xs font-semibold transition-all group shadow-sm"
+        >
+          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform text-cyan-400" />
+          <span>Retour à l'accueil</span>
+        </Link>
+        <Link
+          href="/login"
+          className="text-xs font-semibold text-cyan-400 hover:text-cyan-300 transition-colors"
+        >
+          Déjà un compte ? Se connecter →
+        </Link>
+      </div>
+
       <div className="sm:mx-auto sm:w-full sm:max-w-lg relative z-10">
         {/* Logo */}
         <div className="flex items-center justify-center gap-3 mb-6">
           <Link href="/" className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-brand-600 to-cyan-500 flex items-center justify-center text-white shadow-xl shadow-brand-500/30 ring-4 ring-brand-500/20">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-brand-600 via-sky-500 to-cyan-400 flex items-center justify-center text-white shadow-xl shadow-brand-500/30 ring-4 ring-brand-500/20">
               <FileText className="w-6 h-6" />
             </div>
             <div>
