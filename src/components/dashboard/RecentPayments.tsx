@@ -2,14 +2,30 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { CheckCircle2, CreditCard } from 'lucide-react';
+import { CheckCircle2, CreditCard, Building, Banknote } from 'lucide-react';
 import { useAppData } from '@/context/AppDataContext';
 import { formatCurrency, formatDate } from '@/lib/formatters';
+import { WaveLogo, OrangeMoneyLogo, StripeLogo } from '@/components/ui/BrandLogos';
 
 export const RecentPayments: React.FC = () => {
   const { payments } = useAppData();
 
   const recentPayments = payments.slice(0, 3);
+
+  const renderProviderIcon = (provider?: string) => {
+    switch (provider) {
+      case 'wave':
+        return <WaveLogo className="w-4 h-4 rounded shrink-0" />;
+      case 'orange_money':
+        return <OrangeMoneyLogo className="w-4 h-4 rounded shrink-0" />;
+      case 'stripe':
+        return <StripeLogo className="w-4 h-4 rounded shrink-0" />;
+      case 'bank_transfer':
+        return <Building className="w-3.5 h-3.5 text-slate-600 shrink-0" />;
+      default:
+        return <Banknote className="w-3.5 h-3.5 text-emerald-600 shrink-0" />;
+    }
+  };
 
   return (
     <div className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200/80 shadow-card">
@@ -31,13 +47,16 @@ export const RecentPayments: React.FC = () => {
             key={payment.id}
             className="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 transition-colors"
           >
-            <div>
-              <p className="text-xs font-bold text-slate-900">
-                {payment.reference || `PAY-${payment.id}`}
-              </p>
-              <p className="text-[11px] text-slate-500">
-                {payment.client_name || 'Client'}
-              </p>
+            <div className="flex items-center gap-2.5">
+              {renderProviderIcon(payment.provider)}
+              <div>
+                <p className="text-xs font-bold text-slate-900">
+                  {payment.reference || `PAY-${payment.id}`}
+                </p>
+                <p className="text-[11px] text-slate-500">
+                  {payment.client_name || 'Client'}
+                </p>
+              </div>
             </div>
 
             <div className="flex items-center gap-3 text-right">

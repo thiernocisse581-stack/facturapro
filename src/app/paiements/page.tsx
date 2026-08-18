@@ -6,12 +6,12 @@ import {
   Search,
   CheckCircle2,
   Calendar,
-  Smartphone,
   Building,
   Banknote,
 } from 'lucide-react';
 import { useAppData } from '@/context/AppDataContext';
 import { formatCurrency, formatDate } from '@/lib/formatters';
+import { WaveLogo, OrangeMoneyLogo, StripeLogo } from '@/components/ui/BrandLogos';
 
 export default function PaiementsPage() {
   const { payments, invoices } = useAppData();
@@ -23,31 +23,31 @@ export default function PaiementsPage() {
       case 'wave':
         return {
           label: 'Wave Mobile',
-          icon: Smartphone,
-          className: 'bg-sky-50 text-sky-700 border border-sky-200',
+          renderIcon: (size = 'w-3.5 h-3.5') => <WaveLogo className={`${size} shrink-0 rounded`} />,
+          className: 'bg-sky-50 text-sky-900 border border-sky-200 font-bold',
         };
       case 'orange_money':
         return {
           label: 'Orange Money',
-          icon: Smartphone,
-          className: 'bg-orange-50 text-orange-700 border border-orange-200',
+          renderIcon: (size = 'w-3.5 h-3.5') => <OrangeMoneyLogo className={`${size} shrink-0 rounded`} />,
+          className: 'bg-orange-50 text-orange-900 border border-orange-200 font-bold',
         };
       case 'stripe':
         return {
           label: 'Carte bancaire',
-          icon: CreditCard,
+          renderIcon: (size = 'w-3.5 h-3.5') => <StripeLogo className={`${size} shrink-0 rounded`} />,
           className: 'bg-indigo-50 text-indigo-700 border border-indigo-200',
         };
       case 'bank_transfer':
         return {
           label: 'Virement bancaire',
-          icon: Building,
+          renderIcon: (size = 'w-3.5 h-3.5') => <Building className={`${size} text-slate-700 shrink-0`} />,
           className: 'bg-slate-100 text-slate-700 border border-slate-200',
         };
       default:
         return {
           label: 'Espèces',
-          icon: Banknote,
+          renderIcon: (size = 'w-3.5 h-3.5') => <Banknote className={`${size} text-emerald-700 shrink-0`} />,
           className: 'bg-emerald-50 text-emerald-700 border border-emerald-200',
         };
     }
@@ -142,7 +142,6 @@ export default function PaiementsPage() {
           {filteredPayments.map((payment) => {
             const inv = invoices.find((i) => i.id === payment.invoice_id);
             const badge = getProviderBadge(payment.provider);
-            const Icon = badge.icon;
 
             return (
               <div key={payment.id} className="p-4 space-y-2">
@@ -157,8 +156,8 @@ export default function PaiementsPage() {
                 </div>
 
                 <div className="flex items-center justify-between pt-1">
-                  <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg text-[10px] font-semibold ${badge.className}`}>
-                    <Icon className="w-3 h-3" />
+                  <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-semibold ${badge.className}`}>
+                    {badge.renderIcon('w-3.5 h-3.5')}
                     <span>{badge.label}</span>
                   </span>
 
@@ -194,7 +193,6 @@ export default function PaiementsPage() {
               {filteredPayments.map((payment) => {
                 const inv = invoices.find((i) => i.id === payment.invoice_id);
                 const badge = getProviderBadge(payment.provider);
-                const Icon = badge.icon;
 
                 return (
                   <tr key={payment.id} className="hover:bg-slate-50/70 transition-colors">
@@ -214,7 +212,7 @@ export default function PaiementsPage() {
                       <span
                         className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold ${badge.className}`}
                       >
-                        <Icon className="w-3.5 h-3.5" />
+                        {badge.renderIcon('w-3.5 h-3.5')}
                         <span>{badge.label}</span>
                       </span>
                     </td>

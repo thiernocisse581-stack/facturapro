@@ -74,17 +74,17 @@ export default function LoginPage() {
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none" />
 
       {/* Top Back to Home navigation */}
-      <div className="sm:mx-auto sm:w-full sm:max-w-md mb-6 relative z-10 flex items-center justify-between">
+      <div className="w-full max-w-md mx-auto mb-6 relative z-10 flex items-center justify-between gap-2 px-1">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 px-3.5 py-2 bg-slate-900/90 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white rounded-xl text-xs font-semibold transition-all group shadow-sm"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 bg-slate-900/90 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white rounded-xl text-[11px] sm:text-xs font-semibold transition-all group shrink-0 shadow-sm"
         >
-          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform text-cyan-400" />
-          <span>Retour à l'accueil</span>
+          <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform text-cyan-400 shrink-0" />
+          <span>Accueil</span>
         </Link>
         <Link
           href="/register"
-          className="text-xs font-semibold text-cyan-400 hover:text-cyan-300 transition-colors"
+          className="text-[11px] sm:text-xs font-semibold text-cyan-400 hover:text-cyan-300 transition-colors shrink-0 text-right"
         >
           Créer un compte →
         </Link>

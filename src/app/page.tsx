@@ -29,11 +29,14 @@ import {
   Lock,
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
+import { WaveLogo, OrangeMoneyLogo } from '@/components/ui/BrandLogos';
+import LiveDemoModal from '@/components/home/LiveDemoModal';
 
 export default function LandingPage() {
   const router = useRouter();
   const { isAuthenticated, user } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [demoModalOpen, setDemoModalOpen] = useState(false);
 
   // Parallax Stage Refs
   const stageRef = useRef<HTMLDivElement>(null);
@@ -293,14 +296,16 @@ export default function LandingPage() {
                 <span>Commencer gratuitement</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
-              <a
-                href="#demo"
+              <button
+                type="button"
+                onClick={() => setDemoModalOpen(true)}
                 onPointerMove={handleMagneticMove}
                 onPointerLeave={handleMagneticLeave}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 sm:py-4 bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 rounded-full font-bold text-xs sm:text-sm shadow-sm transition-all"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 sm:py-4 bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 hover:border-cyan-400 rounded-full font-bold text-xs sm:text-sm shadow-sm hover:shadow-md transition-all group"
               >
+                <Sparkles className="w-4 h-4 text-cyan-500 group-hover:scale-110 transition-transform" />
                 <span>Explorer la démo live</span>
-              </a>
+              </button>
             </div>
 
             {/* Trust Badges */}
@@ -331,31 +336,27 @@ export default function LandingPage() {
             <div className="xl:hidden w-full grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4 z-20">
               <div className="p-3.5 sm:p-4 bg-white/95 backdrop-blur-xl border border-slate-200/90 rounded-2xl shadow-md flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 font-extrabold text-xs flex items-center justify-center">
-                    ✓
-                  </div>
+                  <WaveLogo className="w-9 h-9 shrink-0 shadow-sm rounded-xl" />
                   <div>
                     <div className="text-[11px] font-bold text-slate-500">Paiement Wave reçu</div>
                     <div className="font-heading font-extrabold text-sm text-slate-900">+ 185 000 FCFA</div>
                   </div>
                 </div>
-                <span className="px-2 py-0.5 bg-emerald-50 text-emerald-700 font-extrabold rounded-full text-[10px]">
-                  Payée
+                <span className="px-2 py-0.5 bg-emerald-50 text-emerald-700 font-extrabold rounded-full text-[10px] border border-emerald-200/60">
+                  Payée ✓
                 </span>
               </div>
 
               <div className="p-3.5 sm:p-4 bg-white/95 backdrop-blur-xl border border-slate-200/90 rounded-2xl shadow-md flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-cyan-500 to-sky-400 text-white font-extrabold text-xs flex items-center justify-center">
-                    MA
-                  </div>
+                  <OrangeMoneyLogo className="w-9 h-9 shrink-0 shadow-sm rounded-xl" />
                   <div>
-                    <div className="text-[11px] font-bold text-slate-900">Maison Akwa</div>
-                    <div className="font-heading font-extrabold text-sm text-slate-900">420 000 FCFA</div>
+                    <div className="text-[11px] font-bold text-slate-500">Orange Money reçu</div>
+                    <div className="font-heading font-extrabold text-sm text-slate-900">+ 320 000 FCFA</div>
                   </div>
                 </div>
-                <span className="text-[10px] text-slate-400 font-semibold">
-                  24 août
+                <span className="px-2 py-0.5 bg-amber-50 text-amber-700 font-extrabold rounded-full text-[10px] border border-amber-200/60">
+                  Payée ✓
                 </span>
               </div>
             </div>
@@ -363,12 +364,12 @@ export default function LandingPage() {
             {/* Desktop Floating Widget 1: Wave Payment Alert (xl only, positioned outside bounds without overlap) */}
             <div
               ref={floatPaymentRef}
-              className="hidden xl:block float-payment-anim absolute -left-10 top-20 z-20 w-52 p-4 bg-white/95 backdrop-blur-xl border border-slate-200/90 rounded-3xl shadow-2xl shadow-slate-900/10 pointer-events-none"
+              className="hidden xl:block float-payment-anim absolute -left-12 top-20 z-20 w-56 p-4 bg-white/95 backdrop-blur-xl border border-slate-200/90 rounded-3xl shadow-2xl shadow-slate-900/10 pointer-events-none"
             >
               <div className="flex items-center justify-between text-xs font-bold text-slate-500">
-                <span className="flex items-center gap-1">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-                  Wave Mobile Money
+                <span className="flex items-center gap-1.5">
+                  <WaveLogo className="w-5 h-5 rounded-md shrink-0" />
+                  <span className="text-cyan-900">Wave Mobile</span>
                 </span>
                 <span className="text-emerald-600 font-extrabold">✓ Reçu</span>
               </div>
@@ -381,25 +382,24 @@ export default function LandingPage() {
               </div>
             </div>
 
-            {/* Desktop Floating Widget 2: B2B African Client (xl only) */}
+            {/* Desktop Floating Widget 2: Orange Money Alert (xl only) */}
             <div
               ref={floatCustomerRef}
-              className="hidden xl:block float-customer-anim absolute -right-10 top-10 z-20 w-48 p-4 bg-white/95 backdrop-blur-xl border border-slate-200/90 rounded-3xl shadow-2xl shadow-slate-900/10 pointer-events-none"
+              className="hidden xl:block float-customer-anim absolute -right-12 top-10 z-20 w-56 p-4 bg-white/95 backdrop-blur-xl border border-slate-200/90 rounded-3xl shadow-2xl shadow-slate-900/10 pointer-events-none"
             >
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-500 to-sky-400 text-white font-extrabold text-xs flex items-center justify-center shadow-sm">
-                  MA
-                </div>
-                <div>
-                  <div className="text-xs font-bold text-slate-900">Maison Akwa</div>
-                  <div className="text-[10px] text-slate-400">Client Entreprise</div>
-                </div>
+              <div className="flex items-center justify-between text-xs font-bold text-slate-500">
+                <span className="flex items-center gap-1.5">
+                  <OrangeMoneyLogo className="w-5 h-5 rounded-md shrink-0" />
+                  <span className="text-orange-900">Orange Money</span>
+                </span>
+                <span className="text-amber-600 font-extrabold">✓ Reçu</span>
               </div>
-              <div className="font-heading font-extrabold text-lg text-slate-900 mt-2 tracking-tight">
-                420 000 FCFA
+              <div className="font-heading font-extrabold text-xl text-slate-900 mt-2 tracking-tight">
+                + 320 000 FCFA
               </div>
-              <div className="text-[10px] text-slate-500 font-medium mt-0.5">
-                Échéance · 24 août 2026
+              <div className="text-xs text-slate-600 font-medium mt-1 flex items-center justify-between">
+                <span>Maison Akwa</span>
+                <span className="text-slate-400">Dakar</span>
               </div>
             </div>
 
@@ -667,7 +667,18 @@ export default function LandingPage() {
                 </div>
                 <div className="flex items-center gap-2 text-xs font-bold text-cyan-900">
                   <CheckCircle2 className="w-4 h-4 text-cyan-600 shrink-0" />
-                  <span>Passerelles Wave, Orange Money &amp; Stripe</span>
+                  <span className="flex items-center gap-1.5 flex-wrap">
+                    <span>Passerelles</span>
+                    <span className="inline-flex items-center gap-1 bg-white px-2 py-0.5 rounded-md border border-cyan-200/80 shadow-2xs">
+                      <WaveLogo className="w-3.5 h-3.5" />
+                      <span className="text-[11px] font-bold text-cyan-800">Wave</span>
+                    </span>
+                    <span>&amp;</span>
+                    <span className="inline-flex items-center gap-1 bg-white px-2 py-0.5 rounded-md border border-orange-200/80 shadow-2xs">
+                      <OrangeMoneyLogo className="w-3.5 h-3.5" />
+                      <span className="text-[11px] font-bold text-orange-800">Orange Money</span>
+                    </span>
+                  </span>
                 </div>
                 <div className="flex items-center gap-2 text-xs font-bold text-cyan-900">
                   <CheckCircle2 className="w-4 h-4 text-cyan-600 shrink-0" />
@@ -717,14 +728,19 @@ export default function LandingPage() {
                 onPointerLeave={handleCardLeave}
                 className="p-5 sm:p-7 bg-white border border-slate-200/90 rounded-3xl shadow-sm hover:shadow-xl hover:border-cyan-200 transition-all reveal delay-2"
               >
-                <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center mb-4 sm:mb-5 shadow-sm">
-                  <Smartphone className="w-5 h-5 sm:w-6 sm:h-6" />
+                <div className="flex items-center gap-2 mb-4 sm:mb-5">
+                  <div className="p-1.5 bg-sky-50 border border-sky-100 rounded-2xl shadow-sm">
+                    <WaveLogo className="w-8 h-8 rounded-xl" />
+                  </div>
+                  <div className="p-1.5 bg-orange-50 border border-orange-100 rounded-2xl shadow-sm">
+                    <OrangeMoneyLogo className="w-8 h-8 rounded-xl" />
+                  </div>
                 </div>
                 <h3 className="font-heading font-extrabold text-base sm:text-xl text-slate-900 tracking-tight">
-                  Encaissements Wave &amp; Mobile Money
+                  Encaissements Wave &amp; Orange Money
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-600 mt-2 sm:mt-2.5 leading-relaxed">
-                  Enregistrez vos paiements reçus par Wave, Orange Money, virement ou carte bancaire avec reçu instantané.
+                  Enregistrez vos paiements reçus par <strong>Wave</strong>, <strong>Orange Money</strong>, virement ou carte bancaire avec reçu instantané.
                 </p>
               </div>
 
@@ -1176,6 +1192,9 @@ export default function LandingPage() {
           </div>
         </div>
       </footer>
+
+      {/* Interactive Live Demo Modal */}
+      <LiveDemoModal isOpen={demoModalOpen} onClose={() => setDemoModalOpen(false)} />
     </div>
   );
 }

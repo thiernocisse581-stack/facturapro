@@ -21,6 +21,7 @@ import {
   Layers,
 } from 'lucide-react';
 import { useAppData } from '@/context/AppDataContext';
+import { WaveLogo, OrangeMoneyLogo, StripeLogo } from '@/components/ui/BrandLogos';
 
 export default function IntegrationsPage() {
   const {
@@ -473,9 +474,7 @@ CREATE POLICY "Public full access on expenses" ON expenses FOR ALL USING (true) 
             <div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-2xl bg-sky-500 text-white flex items-center justify-center font-black text-sm shadow-sm">
-                    W
-                  </div>
+                  <WaveLogo className="w-10 h-10 rounded-2xl shadow-sm" />
                   <div>
                     <h3 className="text-sm sm:text-base font-bold text-slate-900">Wave Mobile Money</h3>
                     <p className="text-[11px] text-slate-400">QR Code & Liens de paiement directs</p>
@@ -529,9 +528,7 @@ CREATE POLICY "Public full access on expenses" ON expenses FOR ALL USING (true) 
             <div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-2xl bg-orange-500 text-white flex items-center justify-center font-black text-sm shadow-sm">
-                    OM
-                  </div>
+                  <OrangeMoneyLogo className="w-10 h-10 rounded-2xl shadow-sm" />
                   <div>
                     <h3 className="text-sm sm:text-base font-bold text-slate-900">Orange Money (OM API)</h3>
                     <p className="text-[11px] text-slate-400">Paiement marchand Sonatel / Orange SN</p>
@@ -585,9 +582,7 @@ CREATE POLICY "Public full access on expenses" ON expenses FOR ALL USING (true) 
             <div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-black text-sm shadow-sm">
-                    S
-                  </div>
+                  <StripeLogo className="w-10 h-10 rounded-2xl shadow-sm" />
                   <div>
                     <h3 className="text-sm sm:text-base font-bold text-slate-900">Stripe Payments</h3>
                     <p className="text-[11px] text-slate-400">Cartes bancaires Visa, Mastercard, AMEX</p>

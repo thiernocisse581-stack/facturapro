@@ -1,11 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import { X, CheckCircle, Smartphone, CreditCard, Building, Banknote } from 'lucide-react';
+import { X, CheckCircle, CreditCard, Building, Banknote } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { Invoice, PaymentProvider } from '@/types';
 import { useAppData } from '@/context/AppDataContext';
 import { formatCurrency } from '@/lib/formatters';
+import { WaveLogo, OrangeMoneyLogo, StripeLogo } from '@/components/ui/BrandLogos';
 
 interface PaymentModalProps {
   invoice: Invoice;
@@ -54,12 +55,12 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
     onClose();
   };
 
-  const providers: { id: PaymentProvider; name: string; icon: any; colorClass: string }[] = [
-    { id: 'wave', name: 'Wave Mobile Money', icon: Smartphone, colorClass: 'border-sky-500 bg-sky-50 text-sky-700' },
-    { id: 'orange_money', name: 'Orange Money', icon: Smartphone, colorClass: 'border-orange-500 bg-orange-50 text-orange-700' },
-    { id: 'bank_transfer', name: 'Virement bancaire', icon: Building, colorClass: 'border-slate-500 bg-slate-50 text-slate-700' },
-    { id: 'stripe', name: 'Carte bancaire', icon: CreditCard, colorClass: 'border-indigo-500 bg-indigo-50 text-indigo-700' },
-    { id: 'cash', name: 'Espèces', icon: Banknote, colorClass: 'border-emerald-500 bg-emerald-50 text-emerald-700' },
+  const providers: { id: PaymentProvider; name: string; renderIcon: () => React.ReactNode; colorClass: string }[] = [
+    { id: 'wave', name: 'Wave Mobile Money', renderIcon: () => <WaveLogo className="w-5 h-5 rounded-md shrink-0" />, colorClass: 'border-sky-500 bg-sky-50 text-sky-900 font-bold' },
+    { id: 'orange_money', name: 'Orange Money', renderIcon: () => <OrangeMoneyLogo className="w-5 h-5 rounded-md shrink-0" />, colorClass: 'border-orange-500 bg-orange-50 text-orange-900 font-bold' },
+    { id: 'bank_transfer', name: 'Virement bancaire', renderIcon: () => <Building className="w-4 h-4 text-slate-700 shrink-0" />, colorClass: 'border-slate-500 bg-slate-50 text-slate-800' },
+    { id: 'stripe', name: 'Carte bancaire', renderIcon: () => <StripeLogo className="w-5 h-5 rounded shrink-0" />, colorClass: 'border-indigo-500 bg-indigo-50 text-indigo-900' },
+    { id: 'cash', name: 'Espèces', renderIcon: () => <Banknote className="w-4 h-4 text-emerald-600 shrink-0" />, colorClass: 'border-emerald-500 bg-emerald-50 text-emerald-800' },
   ];
 
   return (
@@ -113,7 +114,6 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
             </label>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {providers.map((p) => {
-                const Icon = p.icon;
                 const isSelected = provider === p.id;
                 return (
                   <button
@@ -132,7 +132,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                         : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
                     }`}
                   >
-                    <Icon className="w-4 h-4 shrink-0" />
+                    {p.renderIcon()}
                     <span className="truncate">{p.name}</span>
                   </button>
                 );
